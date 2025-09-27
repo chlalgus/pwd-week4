@@ -47,7 +47,14 @@ exports.getPopularRestaurants = asyncHandler(async (req, res) => {
 });
 
 exports.createRestaurant = asyncHandler(async (req, res) => {
-  const payload = {
+  const { name, category, location } = req.body;
+
+  if (!name || !category || !location) {
+    return res.status(400).json({ 
+      error: { message: 'Missing required field: name, category, or location' } 
+    });
+  }
+    const payload = {
     ...req.body,
     recommendedMenu: normaliseMenu(req.body?.recommendedMenu)
   };
